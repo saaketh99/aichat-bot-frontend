@@ -1,9 +1,9 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 COPY . .
-RUN ./node_modules/.bin/vite build
+RUN npm run build
 
 FROM nginx:alpine
 RUN apk add --no-cache wget
