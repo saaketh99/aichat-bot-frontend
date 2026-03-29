@@ -1,15 +1,13 @@
 import React from "react";
 
 const SUGGESTED_PROMPTS = [
-  { icon: "📦", label: "Order summary", query: "Give me an overview of all orders — total count, statuses, and revenue" },
-  { icon: "🚚", label: "In-transit orders", query: "Show me all orders currently in transit" },
-  { icon: "✅", label: "Delivered today", query: "How many orders were delivered recently?" },
-  { icon: "⚠️", label: "Delayed orders", query: "Are there any orders with multiple out-for-delivery attempts?" },
-  { icon: "💰", label: "Revenue breakdown", query: "What is the total revenue and average shipping cost?" },
-  { icon: "🏙️", label: "Hyderabad orders", query: "Show me all orders going to Hyderabad" },
+  { icon: "⏱️", label: "TAT Summary",        query: "Give me a TAT summary — average delivery time, fastest and slowest routes" },
+  { icon: "📦", label: "Order Distribution",  query: "Show me order distribution by status, city and shipper" },
+  { icon: "🏙️", label: "CX Distribution",     query: "Show customer order distribution by destination city and state" },
+  { icon: "⚠️", label: "Delayed Orders",      query: "Show me all delayed orders — EDD passed but not yet delivered" },
 ];
 
-export function Sidebar({ onPromptClick, isLoading }) {
+export function Sidebar({ onPromptClick, isLoading, theme, onThemeToggle }) {
   return (
     <aside
       style={{
@@ -24,32 +22,87 @@ export function Sidebar({ onPromptClick, isLoading }) {
     >
       {/* Logo */}
       <div style={{ padding: "0 20px 24px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-          <div
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {/* Icon */}
+            <div
+              style={{
+                width: 34,
+                height: 34,
+                background: "var(--accent-yellow)",
+                borderRadius: "var(--radius)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M3 14L9 4l6 10H3z" fill="#0a0c0f"/>
+                <circle cx="9" cy="11" r="1.5" fill="#0a0c0f"/>
+              </svg>
+            </div>
+
+            {/* Title — NEXA font */}
+            <div>
+              <div
+                style={{
+                  fontFamily: "var(--font-title)",
+                  fontWeight: 800,
+                  fontSize: 16,
+                  letterSpacing: "0.01em",
+                  color: "var(--text-primary)",
+                  lineHeight: 1.2,
+                }}
+              >
+                Logi Pilot
+              </div>
+              <div
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 9,
+                  color: "var(--text-muted)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  marginTop: 2,
+                }}
+              >
+                AI Powered
+              </div>
+            </div>
+          </div>
+
+          {/* Theme toggle */}
+          <button
+            onClick={onThemeToggle}
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             style={{
-              width: 32,
-              height: 32,
-              background: "var(--accent-yellow)",
+              background: "transparent",
+              border: "1px solid var(--border)",
               borderRadius: "var(--radius)",
+              width: 30,
+              height: 30,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              cursor: "pointer",
+              color: "var(--text-muted)",
               flexShrink: 0,
+              transition: "all 0.15s",
+              fontSize: 14,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "var(--accent-yellow)";
+              e.currentTarget.style.color = "var(--accent-yellow)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "var(--border)";
+              e.currentTarget.style.color = "var(--text-muted)";
             }}
           >
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M3 14L9 4l6 10H3z" fill="#0a0c0f"/>
-              <circle cx="9" cy="11" r="1.5" fill="#0a0c0f"/>
-            </svg>
-          </div>
-          <div>
-            <div style={{ fontWeight: 800, fontSize: 15, letterSpacing: "-0.02em", color: "var(--text-primary)" }}>
-              LogiSync
-            </div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em" }}>
-              AI Operations
-            </div>
-          </div>
+            {theme === "dark" ? "☀️" : "🌙"}
+          </button>
         </div>
 
         {/* Status indicator */}
@@ -141,7 +194,14 @@ export function Sidebar({ onPromptClick, isLoading }) {
               }}
             >
               <span style={{ fontSize: 14, flexShrink: 0 }}>{p.icon}</span>
-              <span style={{ fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.3 }}>
+              <span
+                style={{
+                  fontSize: 12,
+                  color: "var(--text-secondary)",
+                  lineHeight: 1.3,
+                  fontFamily: "var(--font-display)",
+                }}
+              >
                 {p.label}
               </span>
             </button>
@@ -157,7 +217,14 @@ export function Sidebar({ onPromptClick, isLoading }) {
           marginTop: 16,
         }}
       >
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "var(--text-muted)", lineHeight: 1.6 }}>
+        <div
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 9,
+            color: "var(--text-muted)",
+            lineHeight: 1.6,
+          }}
+        >
           <div>MODEL: DeepSeek-V3</div>
           <div>DB: MongoDB Atlas</div>
           <div style={{ color: "var(--accent-green)", marginTop: 2 }}>

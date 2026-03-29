@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Sidebar } from "./components/Sidebar";
 import { ChatInterface } from "./components/ChatInterface";
 import { ConnectionBanner } from "./components/ConnectionBanner";
 import { useBackendStatus } from "./hooks/useBackendStatus";
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading]         = useState(false);
   const [externalPrompt, setExternalPrompt] = useState(null);
-  const backendStatus = useBackendStatus();
+  const [theme, setTheme]                 = useState("dark");
+  const backendStatus                     = useBackendStatus();
+
+  // Apply theme class to root element whenever theme changes
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const handleThemeToggle = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
   return (
     <div
@@ -51,6 +61,8 @@ export default function App() {
         <Sidebar
           isLoading={isLoading}
           backendStatus={backendStatus}
+          theme={theme}
+          onThemeToggle={handleThemeToggle}
           onPromptClick={(prompt) => setExternalPrompt(prompt)}
         />
         <ChatInterface

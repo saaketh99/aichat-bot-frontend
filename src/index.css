@@ -1,4 +1,6 @@
-:root {
+/* ── Dark theme (default) ───────────────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
   --bg-base: #0a0c0f;
   --bg-surface: #111418;
   --bg-elevated: #181d24;
@@ -14,11 +16,43 @@
   --text-primary: #e8edf2;
   --text-secondary: #8a9ab0;
   --text-muted: #4a5a6e;
-  --font-display: 'Syne', sans-serif;
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+/* ── Light theme ────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-base: #f4f6f9;
+  --bg-surface: #ffffff;
+  --bg-elevated: #eef1f5;
+  --bg-input: #ffffff;
+  --border: #d0d7e2;
+  --border-bright: #b0bcd0;
+  --accent-yellow: #d4a017;
+  --accent-yellow-dim: rgba(212, 160, 23, 0.10);
+  --accent-green: #16a34a;
+  --accent-green-dim: rgba(22, 163, 74, 0.10);
+  --accent-blue: #2563eb;
+  --accent-red: #dc2626;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #9ca3af;
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+/* ── Font variables ─────────────────────────────────────────────────────── */
+:root {
+  /* San Francisco — Apple system font stack */
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                  "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+
+  /* NEXA — used for logo/title only */
+  --font-title: "Nexa", "Nexa Bold", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Space Mono — monospace */
   --font-mono: 'Space Mono', monospace;
+
   --radius: 6px;
   --radius-lg: 12px;
-  --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
 }
 
 *, *::before, *::after {
@@ -38,43 +72,33 @@ body {
   font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
+  transition: background 0.2s, color 0.2s;
 }
 
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-bright);
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-yellow);
-}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-yellow); }
 
-/* Markdown styles */
+/* ── Markdown styles ────────────────────────────────────────────────────── */
 .markdown-body p {
   margin-bottom: 10px;
   line-height: 1.7;
   color: var(--text-primary);
   font-size: 14px;
+  font-family: var(--font-display);
 }
 
-.markdown-body p:last-child {
-  margin-bottom: 0;
-}
+.markdown-body p:last-child { margin-bottom: 0; }
 
-.markdown-body ul, .markdown-body ol {
-  margin: 8px 0 10px 20px;
-}
+.markdown-body ul, .markdown-body ol { margin: 8px 0 10px 20px; }
 
 .markdown-body li {
   margin-bottom: 4px;
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-primary);
+  font-family: var(--font-display);
 }
 
 .markdown-body strong {
@@ -108,7 +132,7 @@ body {
 }
 
 .markdown-body h1, .markdown-body h2, .markdown-body h3 {
-  font-family: var(--font-display);
+  font-family: var(--font-title);
   font-weight: 700;
   color: var(--accent-yellow);
   margin: 12px 0 6px;
@@ -147,17 +171,18 @@ body {
   background: rgba(255,255,255,0.02);
 }
 
+/* ── Animations ─────────────────────────────────────────────────────────── */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes pulse-dot {
   0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
-  40% { transform: scale(1); opacity: 1; }
+  40%           { transform: scale(1);   opacity: 1; }
 }
 
 @keyframes scanline {
-  0% { transform: translateY(-100%); }
+  0%   { transform: translateY(-100%); }
   100% { transform: translateY(100vh); }
 }
